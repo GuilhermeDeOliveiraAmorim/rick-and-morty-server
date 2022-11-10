@@ -14,10 +14,9 @@ class CreateFavoriteController {
             species,
             status,
             type,
+            rating,
             userId,
         } = request.body;
-
-        console.log(request.body);
 
         const favoriteUseCase = new CreateFavoriteUseCase();
 
@@ -32,6 +31,7 @@ class CreateFavoriteController {
             species,
             status,
             type,
+            rating,
             userId,
         });
 

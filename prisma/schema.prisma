@@ -24,15 +24,16 @@ model User {
 model RickAndMorty {
   id               String  @id @default(uuid())
   episode          Int
-  gender           String
+  gender           String?
   id_api           Int
   image            String
-  location         String
+  location         String?
   name             String
-  origin           String
-  species          String
-  status           String
-  type             String
+  origin           String?
+  species          String?
+  status           String?
+  type             String?
+  rating           Int     @default(0)
   is_your_favorite Boolean @default(true)
   user_id          User    @relation(fields: [userId], references: [id])
   userId           String

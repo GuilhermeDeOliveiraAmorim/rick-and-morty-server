@@ -11,6 +11,7 @@ interface IFavoriteRequest {
     species: string;
     status: string;
     type: string;
+    rating: number;
     userId: string;
 }
 
@@ -26,8 +27,36 @@ class CreateFavoriteUseCase {
         species,
         status,
         type,
+        rating,
         userId,
     }: IFavoriteRequest) {
+        const alreadyFavoriteThisOne = await client.rickAndMorty.findFirst({
+            where: {
+                userId: userId,
+            },
+        });
+
+        if (!alreadyFavoriteThisOne) {
+            const favoriteRating = await client.rickAndMorty.findFirst({
+                where: {
+                    id_api: id_api,
+                },
+            });
+
+            if (favoriteRating) {
+                rating = favoriteRating.rating + rating;
+            }
+
+            await client.rickAndMorty.updateMany({
+                data: {
+                    rating: rating,
+                },
+                where: {
+                    id_api: id_api,
+                },
+            });
+        }
+
         const favorite = await client.rickAndMorty.create({
             data: {
                 episode,
@@ -40,6 +69,7 @@ class CreateFavoriteUseCase {
                 species,
                 status,
                 type,
+                rating,
                 userId,
             },
         });

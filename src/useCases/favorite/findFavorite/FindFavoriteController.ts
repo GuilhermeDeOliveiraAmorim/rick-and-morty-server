@@ -1,14 +1,19 @@
 import { Request, Response } from "express";
 import { FindFavoriteUseCase } from "./FindFavoriteUseCase";
 
+interface IFavoriteRequest {
+    favoriteId: string;
+}
 class FindFavoriteController {
-    async handle(request: Request, response: Response) {
-        const userId = request.query.userId;
-
+    async handle(
+        favoriteId: IFavoriteRequest,
+        request: Request,
+        response: Response
+    ) {
         const favoriteUseCase = new FindFavoriteUseCase();
 
-        const favorite = await favoriteUseCase.execute({
-            userId: JSON.stringify(userId),
+        const favorite = await favoriteUseCase.findFavoriteById({
+            favoriteId: favoriteId.favoriteId,
         });
 
         return response.json(favorite);

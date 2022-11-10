@@ -1,18 +1,18 @@
 import { client } from "../../../prisma/client";
 
 interface IFavoriteRequest {
-    userId: string;
+    favoriteId: string;
 }
 
 class FindFavoriteUseCase {
-    async execute({ userId }: IFavoriteRequest) {
-        const favorites = await client.rickAndMorty.findMany({
+    async findFavoriteById({ favoriteId }: IFavoriteRequest) {
+        const favorite = await client.rickAndMorty.findFirst({
             where: {
-                id: userId,
+                id: favoriteId,
             },
         });
 
-        return favorites;
+        return favorite;
     }
 }
 
